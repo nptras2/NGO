@@ -70,6 +70,11 @@ export const donorService = {
     const eligibility = checkEligibility(donor.lastDonationDate)
     const calculatedAvailability = (donor.status === 'Inactive' || !eligibility.eligible) ? 'not_available' : 'available'
 
+    const isValidUUID = (uuid) => {
+      const regex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+      return typeof uuid === 'string' && regex.test(uuid)
+    }
+
     const dbDonor = {
       full_name: donor.fullName,
       father_name: donor.fatherName,
@@ -88,7 +93,7 @@ export const donorService = {
       availability_status: calculatedAvailability,
       medical_notes: donor.medicalNotes,
       photo_url: donor.photo || null,
-      created_by: actorId
+      created_by: isValidUUID(actorId) ? actorId : null
     }
 
     const { data, error } = await supabase

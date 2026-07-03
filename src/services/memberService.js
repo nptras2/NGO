@@ -4,13 +4,22 @@ export const memberService = {
   // Fetch all NGO staff/cabinet members
   getMembers: async () => {
     if (!supabase) return []
-    const { data, error } = await supabase
+    
+    let response = await supabase
       .from('members')
-      .select('*')
+      .select('id, name, designation, blood_group, phone, years_of_service, photo_url, status, display_order, email')
       .order('display_order', { ascending: true })
 
-    if (error) throw error
-    return data.map(m => ({
+    if (response.error) {
+      console.warn("Failed to fetch with 'email' column, retrying without 'email':", response.error)
+      response = await supabase
+        .from('members')
+        .select('id, name, designation, blood_group, phone, years_of_service, photo_url, status, display_order')
+        .order('display_order', { ascending: true })
+    }
+
+    if (response.error) throw response.error
+    return response.data.map(m => ({
       id: m.id,
       fullName: m.name,
       post: m.designation,
@@ -20,7 +29,7 @@ export const memberService = {
       photo: m.photo_url,
       status: m.status === 'active' ? 'Active' : 'Inactive',
       displayOrder: m.display_order,
-      email: m.email
+      email: m.email || ''
     }))
   },
 
@@ -39,13 +48,22 @@ export const memberService = {
       display_order: member.displayOrder || 0
     }
 
-    const { data, error } = await supabase
+    let response = await supabase
       .from('members')
       .insert([dbMember])
       .select()
 
-    if (error) throw error
-    return data[0]
+    if (response.error && (response.error.message.includes('email') || response.error.code === '42703')) {
+      console.warn("Retrying member insert without 'email' column:", response.error)
+      const { email, ...trimmedMember } = dbMember
+      response = await supabase
+        .from('members')
+        .insert([trimmedMember])
+        .select()
+    }
+
+    if (response.error) throw response.error
+    return response.data[0]
   },
 
   createMember: async (member) => {
@@ -67,14 +85,24 @@ export const memberService = {
       display_order: member.displayOrder
     }
 
-    const { data, error } = await supabase
+    let response = await supabase
       .from('members')
       .update(dbMember)
       .eq('id', id)
       .select()
 
-    if (error) throw error
-    return data[0]
+    if (response.error && (response.error.message.includes('email') || response.error.code === '42703')) {
+      console.warn("Retrying member update without 'email' column:", response.error)
+      const { email, ...trimmedMember } = dbMember
+      response = await supabase
+        .from('members')
+        .update(trimmedMember)
+        .eq('id', id)
+        .select()
+    }
+
+    if (response.error) throw response.error
+    return response.data[0]
   },
 
   // Remove member

@@ -45,12 +45,17 @@ export const reportService = {
   addDonation: async (donation, actorId, actorName, actorRole) => {
     if (!supabase) throw new Error('Supabase client is not configured.')
 
+    const isValidUUID = (uuid) => {
+      const regex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+      return typeof uuid === 'string' && regex.test(uuid)
+    }
+
     const dbDonation = {
       donor_id: donation.donorId,
       camp_id: donation.campId || null,
       units_donated: Number(donation.bloodUnits || 1),
       donation_date: donation.donationDate,
-      verified_by: actorId,
+      verified_by: isValidUUID(actorId) ? actorId : null,
       remarks: donation.remarks || ''
     }
 
@@ -121,10 +126,15 @@ export const reportService = {
   // Write new audit log entry
   addAuditLog: async (userId, action, description, entityType = 'general', entityId = null) => {
     if (!supabase) return
+    const isValidUUID = (uuid) => {
+      const regex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+      return typeof uuid === 'string' && regex.test(uuid)
+    }
+
     const { error } = await supabase
       .from('audit_logs')
       .insert([{
-        user_id: userId,
+        user_id: isValidUUID(userId) ? userId : null,
         action,
         entity_type: entityType,
         entity_id: entityId,
