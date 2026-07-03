@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary-red: #E53935;
+  --color-dark-red: #C62828;
+  --color-pure-white: #FFFFFF;
+  --color-light-gray: #F5F5F5;
+  --color-dark-gray: #222222;
+  --color-charcoal: #111111;
+  --color-soft-silver: #DADADA;
+  
+  --color-bg-primary: var(--background);
+  --color-bg-secondary: var(--surface);
+  --color-card-bg: var(--card);
+  --color-border-color: var(--border);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+}
+
+/* Light / Dark Mode design tokens */
+:root {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color-scheme: light dark;
+  
+  --background: #FAFAFA;
+  --surface: #F3F4F6;
+  --card: #FFFFFF;
+  --border: #E5E7EB;
+  --text-primary: #111111;
+  --text-secondary: #444444;
+  --accent: #E53935;
+  --accent-hover: #C62828;
+}
+
+.dark {
+  --background: #050505;
+  --surface: #121212;
+  --card: #0C0C0C;
+  --border: rgba(255, 255, 255, 0.08);
+  --text-primary: #FFFFFF;
+  --text-secondary: #A0A0A0;
+  --accent: #E53935;
+  --accent-hover: #C62828;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  background: var(--card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.04);
+}
+
+.glass-nav {
+  background: var(--card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Premium Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #E53935;
+}
+
+/* Custom glow animations and text effects */
+.glow-text-red {
+  text-shadow: 0 0 15px rgba(229, 57, 53, 0.45);
+}
+
+.pulse-red {
+  animation: pulse-red-key 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-red-key {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: .75;
+    transform: scale(1.05);
+  }
+}
+
+/* ThreeJS Container Styling */
+.three-canvas-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.three-canvas-interactive {
+  pointer-events: auto !important;
+}
+
+/* Disable Lenis Scroll in specific layouts */
+.lenis-disabled {
+  transform: none !important;
+  scroll-behavior: auto !important;
+}
+
+/* Premium Floating Animations */
+.animate-float-slow {
+  animation: float-hero-img 5s ease-in-out infinite;
+}
+
+@keyframes float-hero-img {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
