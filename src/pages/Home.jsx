@@ -17,7 +17,7 @@ const testimonials = [
     id: 1,
     name: 'Siddharth Roy',
     role: 'Leukemia Survivor',
-    quote: 'LifeSaver NGO connected us with an AB- donor within 35 minutes when my chemotherapy levels dropped critically. They did not just find blood, they literally gave me my father back.',
+    quote: 'AZAAD HUMAN RIGHTS ASSOCIATION connected us with an AB- donor within 35 minutes when my chemotherapy levels dropped critically. They did not just find blood, they literally gave me my father back.',
     location: 'Kolkata, WB',
     impact: '1 Life Saved',
     photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop&crop=faces',
@@ -143,7 +143,7 @@ export const Home = () => {
                 transition={{ delay: 0.2, duration: 0.5 }}
                 className="text-sm sm:text-base text-text-secondary font-light max-w-xl mx-auto lg:mx-0 leading-relaxed"
               >
-                LifeSaver NGO is a premium verified blood bank alliance. We bridge the critical gap between volunteer donors and healthcare centers in real-time. Fast, secure, and 100% free.
+                AZAAD HUMAN RIGHTS ASSOCIATION is a premium verified blood bank alliance. We bridge the critical gap between volunteer donors and healthcare centers in real-time. Fast, secure, and 100% free.
               </motion.p>
               
               <motion.div 
@@ -498,7 +498,7 @@ export const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-3xl font-extrabold tracking-wide uppercase mb-3">Success Stories</h2>
-            <p className="text-var-txt-secondary text-sm font-light">Real statements from patients and surgeons supported by Lifesaver.</p>
+            <p className="text-var-txt-secondary text-sm font-light">Real statements from patients and surgeons supported by AZAAD HUMAN RIGHTS ASSOCIATION.</p>
           </div>
           
           {/* Testimonials Grid matching: Mobile: 1, Tablet/Desktop: 2, Large screen: 3 */}

@@ -61,7 +61,7 @@ export const About = () => {
               <span className="text-primary-red">Emergency Transfusion.</span>
             </h1>
             <p className="text-text-secondary text-sm sm:text-base font-light leading-relaxed">
-              Every two seconds, someone needs blood. Often, hospitals face critical shortages of specific subgroups, and families are forced to search frantically. Lifesaver NGO was established to solve this structural deficit. We design digital registry pipelines that connect patients with certified, eligible local donors instantly.
+              Every two seconds, someone needs blood. Often, hospitals face critical shortages of specific subgroups, and families are forced to search frantically. AZAAD HUMAN RIGHTS ASSOCIATION was established to solve this structural deficit. We design digital registry pipelines that connect patients with certified, eligible local donors instantly.
             </p>
             <div className="grid grid-cols-2 gap-6 pt-4 text-xs font-semibold text-text-secondary">
               <div className="flex items-center gap-2">
@@ -79,8 +79,10 @@ export const About = () => {
             {/* Visual Glass Box */}
             <div className="glass-panel p-8 border rounded-2xl max-w-sm shadow-xl space-y-6 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary-red/5 rounded-full blur-2xl" />
-              <Droplet size={48} className="text-primary-red fill-primary-red" />
-              <h3 className="font-bold text-lg">National Blood Alliance</h3>
+              <div className="w-12 h-12 rounded-full overflow-hidden border border-border-color bg-pure-white flex items-center justify-center shrink-0 shadow-sm">
+                <img src="/logo.jpg" alt="Logo" className="w-full h-full object-cover" />
+              </div>
+              <h3 className="font-bold text-lg">AZAAD HUMAN RIGHTS ASSOCIATION</h3>
               <p className="text-xs text-text-secondary font-light leading-relaxed">
                 By maintaining a direct-communication loop between donors and medical staff, we bypass legacy administrative delays.
               </p>
@@ -127,7 +129,7 @@ export const About = () => {
             </blockquote>
             <div>
               <h4 className="font-bold text-sm">Dr. Manoj Prabhakar</h4>
-              <p className="text-xs text-text-secondary font-light">Founder & President, Lifesaver Alliance</p>
+              <p className="text-xs text-text-secondary font-light">Founder & President, AZAAD HUMAN RIGHTS ASSOCIATION</p>
             </div>
           </div>
         </div>

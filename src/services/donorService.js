@@ -67,6 +67,9 @@ export const donorService = {
       ? new Date(new Date(donor.lastDonationDate).getTime() + (DAYS_REQUIRED_BETWEEN_DONATIONS * 24 * 60 * 60 * 1000)).toISOString().split('T')[0]
       : null
 
+    const eligibility = checkEligibility(donor.lastDonationDate)
+    const calculatedAvailability = (donor.status === 'Inactive' || !eligibility.eligible) ? 'not_available' : 'available'
+
     const dbDonor = {
       full_name: donor.fullName,
       father_name: donor.fatherName,
@@ -82,7 +85,7 @@ export const donorService = {
       pincode: donor.pincode,
       last_donation_date: donor.lastDonationDate || null,
       eligible_after_date: eligibleAfter,
-      availability_status: donor.status === 'Active' ? 'available' : 'not_available',
+      availability_status: calculatedAvailability,
       medical_notes: donor.medicalNotes,
       photo_url: donor.photo || null,
       created_by: actorId
@@ -97,6 +100,10 @@ export const donorService = {
     return data[0]
   },
 
+  createDonor: async (donor, actorId) => {
+    return donorService.addDonor(donor, actorId)
+  },
+
   // Update donor details
   updateDonor: async (id, donor) => {
     if (!supabase) throw new Error('Supabase client is not configured.')
@@ -104,6 +111,9 @@ export const donorService = {
     const eligibleAfter = donor.lastDonationDate 
       ? new Date(new Date(donor.lastDonationDate).getTime() + (DAYS_REQUIRED_BETWEEN_DONATIONS * 24 * 60 * 60 * 1000)).toISOString().split('T')[0]
       : null
+
+    const eligibility = checkEligibility(donor.lastDonationDate)
+    const calculatedAvailability = (donor.status === 'Inactive' || !eligibility.eligible) ? 'not_available' : 'available'
 
     const dbDonor = {
       full_name: donor.fullName,
@@ -120,7 +130,7 @@ export const donorService = {
       pincode: donor.pincode,
       last_donation_date: donor.lastDonationDate || null,
       eligible_after_date: eligibleAfter,
-      availability_status: donor.status === 'Active' ? 'available' : 'not_available',
+      availability_status: calculatedAvailability,
       medical_notes: donor.medicalNotes,
       photo_url: donor.photo || null
     }

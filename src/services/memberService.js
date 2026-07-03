@@ -19,7 +19,8 @@ export const memberService = {
       yearsOfService: m.years_of_service,
       photo: m.photo_url,
       status: m.status === 'active' ? 'Active' : 'Inactive',
-      displayOrder: m.display_order
+      displayOrder: m.display_order,
+      email: m.email
     }))
   },
 
@@ -29,6 +30,7 @@ export const memberService = {
     const dbMember = {
       name: member.fullName,
       designation: member.post,
+      email: member.email || null,
       blood_group: member.bloodGroup,
       phone: member.phone || null,
       years_of_service: member.yearsOfService || 0,
@@ -46,12 +48,17 @@ export const memberService = {
     return data[0]
   },
 
+  createMember: async (member) => {
+    return memberService.addMember(member)
+  },
+
   // Update member details
   updateMember: async (id, member) => {
     if (!supabase) throw new Error('Supabase client is not configured.')
     const dbMember = {
       name: member.fullName,
       designation: member.post,
+      email: member.email || null,
       blood_group: member.bloodGroup,
       phone: member.phone,
       years_of_service: member.yearsOfService,

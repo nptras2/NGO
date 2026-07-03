@@ -87,22 +87,22 @@ insert into public.donors (full_name, father_name, gender, date_of_birth, age, b
 ('Ramandeep Chahal', 'Prem Chahal', 'Female', '1993-07-22', 32, 'O-', '+919870001050', 'raman.chahal@gmail.com', 'Talwandi Road, Jaitu', 'Faridkot', 'Jaitu', '151202', current_date - interval '82 days', current_date + interval '8 days', 'not_available', null, null);
 
 -- 4. SEED MEMBERS (15 members)
-insert into public.members (name, designation, blood_group, phone, years_of_service, photo_url, status, display_order) values
-('Dr. Manoj Prabhakar', 'President & Chief Pathologist', 'O+', '+919876543210', 8, 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=300&fit=crop', 'active', 1),
-('Dr. Archana Sen', 'Vice President & Medical Officer', 'A+', '+919876543211', 6, 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&fit=crop', 'active', 2),
-('Sardar Gurcharan Singh', 'General Secretary', 'B+', '+919876543212', 7, 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&fit=crop', 'active', 3),
-('Manpreet Singh Dhillon', 'Treasurer & Compliance Officer', 'O-', '+919876543213', 5, 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&fit=crop', 'active', 4),
-('Harvinder Grewal', 'Coordinator - Ludhiana District', 'AB+', '+919876543214', 4, null, 'active', 5),
-('Simranpreet Kaur', 'Coordinator - Amritsar District', 'O+', '+919876543215', 3, null, 'active', 6),
-('Jasmit Bajaj', 'Coordinator - Jalandhar District', 'A-', '+919876543216', 4, null, 'active', 7),
-('Amit Lal', 'Data Entry Supervisor', 'B-', '+919876543217', 3, null, 'active', 8),
-('Kamaldeep Sandhu', 'Volunteer Lead', 'AB-', '+919876543218', 2, null, 'active', 9),
-('Navneet Sodhi', 'Data Operator', 'O+', '+919876543219', 2, null, 'active', 10),
-('Gurpreet Bajwa', 'Field Logistics Lead', 'A+', '+919876543220', 3, null, 'active', 11),
-('Kiran Bala', 'Donor Welfare Officer', 'B+', '+919876543221', 4, null, 'active', 12),
-('Davinder Kahlon', 'Emergency Dispatch Lead', 'O-', '+919876543222', 2, null, 'active', 13),
-('Rajesh Verma', 'Database Backup Manager', 'AB+', '+919876543223', 3, null, 'active', 14),
-('Baltej Brar', 'Volunteer Liaison', 'O+', '+919876543224', 1, null, 'active', 15);
+insert into public.members (name, designation, email, blood_group, phone, years_of_service, photo_url, status, display_order) values
+('Dr. Manoj Prabhakar', 'President & Chief Pathologist', 'manoj.president@azaadhumanrights.org', 'O+', '+919876543210', 8, 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=300&fit=crop', 'active', 1),
+('Dr. Archana Sen', 'Vice President & Medical Officer', 'archana.vp@azaadhumanrights.org', 'A+', '+919876543211', 6, 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&fit=crop', 'active', 2),
+('Sardar Gurcharan Singh', 'General Secretary', 'gurcharan.sec@azaadhumanrights.org', 'B+', '+919876543212', 7, 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&fit=crop', 'active', 3),
+('Manpreet Singh Dhillon', 'Treasurer & Compliance Officer', 'manpreet.treasurer@azaadhumanrights.org', 'O-', '+919876543213', 5, 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&fit=crop', 'active', 4),
+('Harvinder Grewal', 'Coordinator - Ludhiana District', 'harvinder.ludhiana@azaadhumanrights.org', 'AB+', '+919876543214', 4, null, 'active', 5),
+('Simranpreet Kaur', 'Coordinator - Amritsar District', 'simran.amritsar@azaadhumanrights.org', 'O+', '+919876543215', 3, null, 'active', 6),
+('Jasmit Bajaj', 'Coordinator - Jalandhar District', 'jasmit.jalandhar@azaadhumanrights.org', 'A-', '+919876543216', 4, null, 'active', 7),
+('Amit Lal', 'Data Entry Supervisor', 'amit.data@azaadhumanrights.org', 'B-', '+919876543217', 3, null, 'active', 8),
+('Kamaldeep Sandhu', 'Volunteer Lead', 'kamal.volunteer@azaadhumanrights.org', 'AB-', '+919876543218', 2, null, 'active', 9),
+('Navneet Sodhi', 'Data Operator', 'navneet.operator@azaadhumanrights.org', 'O+', '+919876543219', 2, null, 'active', 10),
+('Gurpreet Bajwa', 'Field Logistics Lead', 'gurpreet.field@azaadhumanrights.org', 'A+', '+919876543220', 3, null, 'active', 11),
+('Kiran Bala', 'Donor Welfare Officer', 'kiran.welfare@azaadhumanrights.org', 'B+', '+919876543221', 4, null, 'active', 12),
+('Davinder Kahlon', 'Emergency Dispatch Lead', 'davinder.dispatch@azaadhumanrights.org', 'O-', '+919876543222', 2, null, 'active', 13),
+('Rajesh Verma', 'Database Backup Manager', 'rajesh.backup@azaadhumanrights.org', 'AB+', '+919876543223', 3, null, 'active', 14),
+('Baltej Brar', 'Volunteer Liaison', 'baltej.volunteer@azaadhumanrights.org', 'O+', '+919876543224', 1, null, 'active', 15);
 
 -- 5. SEED TESTIMONIALS (20 testimonials)
 insert into public.testimonials (name, blood_group, story, photo_url, lives_impacted, is_featured) values

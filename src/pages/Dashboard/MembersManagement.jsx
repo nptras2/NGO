@@ -2,11 +2,25 @@ import React, { useEffect, useState } from 'react'
 import { db } from '../../services/db'
 import { useAuth } from '../../context/AuthContext'
 import { Plus, Edit2, Trash2, ShieldAlert, Award, Calendar, CheckCircle2, Info } from 'lucide-react'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export const MembersManagement = () => {
   const { user, permissions } = useAuth()
-  const [members, setMembers] = useState([])
-  const [loading, setLoading] = useState(true)
+  const queryClient = useQueryClient()
+  
+  // Toast notifications state
+  const [toast, setToast] = useState(null)
+  const showToast = (type, message) => {
+    setToast({ type, message })
+    setTimeout(() => setToast(null), 4000)
+  }
+
+  // Fetch cabinet members via React Query
+  const { data: members = [], isLoading: loading } = useQuery({
+    queryKey: ['members'],
+    queryFn: db.getMembers
+  })
   
   // Modal state
   const [modalOpen, setModalOpen] = useState(false)
@@ -19,17 +33,6 @@ export const MembersManagement = () => {
   const [yearsOfService, setYearsOfService] = useState(0)
   const [status, setStatus] = useState('Active')
   const [email, setEmail] = useState('')
-
-  useEffect(() => {
-    fetchMembers()
-  }, [])
-
-  const fetchMembers = async () => {
-    setLoading(true)
-    const data = await db.getMembers()
-    setMembers(data)
-    setLoading(false)
-  }
 
   const handleOpenAddModal = () => {
     setEditingMember(null)
@@ -49,11 +52,57 @@ export const MembersManagement = () => {
     setBloodGroup(mem.bloodGroup)
     setYearsOfService(mem.yearsOfService || 0)
     setStatus(mem.status)
-    setEmail(mem.email)
+    setEmail(mem.email || '')
     setModalOpen(true)
   }
 
-  const handleSubmit = async (e) => {
+  // Mutations
+  const saveMemberMutation = useMutation({
+    mutationFn: async (memberPayload) => {
+      if (editingMember) {
+        return await db.updateMember(editingMember.id, memberPayload, user)
+      } else {
+        return await db.createMember(memberPayload, user)
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['members'] })
+      showToast('success', editingMember ? 'Cabinet member updated successfully.' : 'Cabinet member registered successfully.')
+      setModalOpen(false)
+    },
+    onError: (error) => {
+      console.error("Full Supabase Error:", error)
+      let displayError = 'Failed to save cabinet member.'
+      if (error?.message) {
+        if (error.message.includes('unique constraint') || error.message.includes('already exists')) {
+          displayError = 'Email already exists.'
+        } else if (error.message.includes('Failed to fetch') || error.message.includes('network')) {
+          displayError = 'Failed to connect to database.'
+        } else if (error.message.includes('violates row-level security') || error.code === '42501') {
+          displayError = 'Permission denied.'
+        } else {
+          displayError = error.message
+        }
+      }
+      showToast('error', displayError)
+    }
+  })
+
+  const deleteMemberMutation = useMutation({
+    mutationFn: async (id) => {
+      return await db.deleteMember(id, user)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['members'] })
+      showToast('success', 'Cabinet member removed successfully.')
+    },
+    onError: (error) => {
+      console.error("Full Supabase Error:", error)
+      showToast('error', error.message || 'Permission denied.')
+    }
+  })
+
+  const handleSubmit = (e) => {
     e.preventDefault()
 
     const defaultPhoto = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop&crop=faces'
@@ -67,27 +116,12 @@ export const MembersManagement = () => {
       photo: editingMember?.photo || defaultPhoto
     }
 
-    try {
-      if (editingMember) {
-        await db.updateMember(editingMember.id, memberPayload, user)
-      } else {
-        await db.addMember(memberPayload, user)
-      }
-      setModalOpen(false)
-      fetchMembers()
-    } catch (err) {
-      console.error(err)
-    }
+    saveMemberMutation.mutate(memberPayload)
   }
 
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
     if (window.confirm('Are you sure you want to remove this team member?')) {
-      try {
-        await db.deleteMember(id, user)
-        fetchMembers()
-      } catch (err) {
-        console.error(err)
-      }
+      deleteMemberMutation.mutate(id)
     }
   }
 
@@ -316,6 +350,25 @@ export const MembersManagement = () => {
           </form>
         </div>
       )}
+
+      {/* Toast Notification */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            className={`fixed bottom-5 right-5 z-50 flex items-center gap-2.5 px-4 py-3 rounded-xl border shadow-xl backdrop-blur-md ${
+              toast.type === 'success' 
+                ? 'bg-green-500/10 border-green-500/30 text-green-500' 
+                : 'bg-primary-red/10 border-primary-red/30 text-primary-red'
+            }`}
+          >
+            {toast.type === 'success' ? <CheckCircle2 size={16} /> : <ShieldAlert size={16} />}
+            <span className="text-xs font-bold uppercase tracking-wider">{toast.message}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </div>
   )

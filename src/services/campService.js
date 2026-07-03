@@ -50,6 +50,10 @@ export const campService = {
     return data[0]
   },
 
+  createCamp: async (camp) => {
+    return campService.addCamp(camp)
+  },
+
   // Update camp details
   updateCamp: async (id, camp) => {
     if (!supabase) throw new Error('Supabase client is not configured.')

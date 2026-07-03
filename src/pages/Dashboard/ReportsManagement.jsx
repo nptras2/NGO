@@ -26,7 +26,7 @@ export const ReportsManagement = () => {
     list.forEach(d => {
       csv += `"${d.id}","${d.fullName}",${d.age},"${d.gender}","${d.bloodGroup}","${d.phone}","${d.email}","${d.city}","${d.district}",${d.eligible},"${d.lastDonationDate || 'None'}"\n`
     })
-    triggerCSVDownload(csv, 'lifesaver_donors_export')
+    triggerCSVDownload(csv, 'azaad_donors_export')
   }
 
   const exportCampsCSV = async () => {
@@ -35,7 +35,7 @@ export const ReportsManagement = () => {
     list.forEach(c => {
       csv += `"${c.id}","${c.campName}","${c.date}","${c.venue}","${c.organizer}","${c.status}",${c.totalDonors},${c.unitsCollected}\n`
     })
-    triggerCSVDownload(csv, 'lifesaver_camps_export')
+    triggerCSVDownload(csv, 'azaad_camps_export')
   }
 
   const triggerCSVDownload = (csvContent, fileName) => {
@@ -80,12 +80,12 @@ export const ReportsManagement = () => {
       <div className="hidden print:block space-y-4 mb-8">
         <div className="border-b-2 border-charcoal pb-4 flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-black uppercase tracking-wider">LIFESAVER NGO SYSTEM REPORT</h1>
+            <h1 className="text-2xl font-black uppercase tracking-wider">AZAAD HUMAN RIGHTS ASSOCIATION SYSTEM REPORT</h1>
             <span className="text-xs font-mono">Date Generated: {new Date().toLocaleString()}</span>
           </div>
           <div className="text-right text-xs">
             <strong>Certified ISO 9001 Network</strong> <br />
-            emergency@lifesaverngo.org
+            emergency@azaadhumanrights.org
           </div>
         </div>
         <p className="text-xs italic">This is a verified snapshot of the active NGO donor directory, camps, and audit ledger logs.</p>
@@ -161,7 +161,7 @@ export const ReportsManagement = () => {
             </p>
           </div>
           <div className="text-[10px] text-text-primary bg-bg-primary p-2 border rounded-md font-mono mt-4">
-            Compliance Node: LIFESAVER-IN-062
+            Compliance Node: AZAAD-PUNJAB-062
           </div>
         </div>
       </div>

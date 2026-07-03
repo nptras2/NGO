@@ -151,11 +151,11 @@ export const Contact = () => {
             <ul className="text-xs text-text-secondary space-y-3.5 font-light">
               <li className="flex items-start gap-2.5">
                 <MapPin size={18} className="text-primary-red shrink-0 mt-0.5" />
-                <span>LifeSaver HQ, 4th Floor Medical Plaza, Sector 62, Noida, UP, 201301</span>
+                <span>AZAAD HQ, Civil Lines, Main Market, Jalandhar, Punjab, 144001</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail size={18} className="text-primary-red shrink-0" />
-                <a href="mailto:info@lifesaverngo.org" className="hover:text-primary-red transition-colors">info@lifesaverngo.org</a>
+                <a href="mailto:info@azaadhumanrights.org" className="hover:text-primary-red transition-colors">info@azaadhumanrights.org</a>
               </li>
             </ul>
           </div>

@@ -6,31 +6,31 @@ const AuthContext = createContext()
 // Predefined demo accounts for playground fallbacks
 const demoUsers = [
   {
-    email: 'admin@lifesaver.org',
+    email: 'admin@azaadhumanrights.org',
     fullName: 'Dr. Manoj Prabhakar',
     post: 'Admin',
     photo: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=150&h=150&fit=crop&crop=faces'
   },
   {
-    email: 'president@lifesaver.org',
+    email: 'president@azaadhumanrights.org',
     fullName: 'Dr. Manoj Prabhakar',
     post: 'President',
     photo: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=150&h=150&fit=crop&crop=faces'
   },
   {
-    email: 'secretary@lifesaver.org',
+    email: 'secretary@azaadhumanrights.org',
     fullName: 'Suhasini Mehta',
     post: 'Secretary',
     photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&h=150&fit=crop&crop=faces'
   },
   {
-    email: 'dataentry@lifesaver.org',
+    email: 'dataentry@azaadhumanrights.org',
     fullName: 'Rahul Bose',
     post: 'Data Entry Operator',
     photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=faces'
   },
   {
-    email: 'volunteer@lifesaver.org',
+    email: 'volunteer@azaadhumanrights.org',
     fullName: 'Ananya Deshpande',
     post: 'Volunteer',
     photo: 'https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?w=150&h=150&fit=crop&crop=faces'
@@ -179,7 +179,7 @@ export const AuthProvider = ({ children }) => {
     } else {
       const customUser = {
         id: user?.id || 'sandbox_id',
-        email: `${roleName.toLowerCase().replace(/\s+/g, '')}@lifesaver.org`,
+        email: `${roleName.toLowerCase().replace(/\s+/g, '')}@azaadhumanrights.org`,
         fullName: `Demo ${roleName}`,
         post: roleName,
         photo: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop&crop=faces'

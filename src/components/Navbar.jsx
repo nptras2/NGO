@@ -43,20 +43,20 @@ export const Navbar = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           
           {/* Logo Brand */}
-          <Link to="/" className="flex items-center gap-2 group">
+          <Link to="/" className="flex items-center gap-2.5 group">
             <motion.div 
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="w-10 h-10 bg-primary-red/10 dark:bg-primary-red/20 rounded-full flex items-center justify-center border border-primary-red/20 text-primary-red group-hover:bg-primary-red group-hover:text-pure-white transition-all duration-300"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-10 h-10 rounded-full overflow-hidden border border-border-color bg-pure-white shadow-sm flex items-center justify-center shrink-0"
             >
-              <Droplet size={20} fill="currentColor" />
+              <img src="/logo.jpg" alt="AZAAD Logo" className="w-full h-full object-cover" />
             </motion.div>
             <div className="flex flex-col">
-              <span className="font-bold tracking-widest text-lg leading-tight uppercase">
-                LIFESAVER<span className="text-primary-red">NGO</span>
+              <span className="font-extrabold tracking-wider text-sm leading-tight text-text-primary uppercase">
+                AZAAD HUMAN RIGHTS
               </span>
-              <span className="text-[9px] text-text-secondary tracking-widest uppercase font-light -mt-0.5">
-                Blood Alliance
+              <span className="text-[9px] text-primary-red tracking-wider uppercase font-bold -mt-0.5">
+                ASSOCIATION • PUNJAB
               </span>
             </div>
           </Link>

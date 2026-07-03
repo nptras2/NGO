@@ -3,11 +3,25 @@ import { db } from '../../services/db'
 import { useAuth } from '../../context/AuthContext'
 import { Plus, Edit2, Trash2, ShieldAlert, UserPlus, Info, CheckCircle, Clock } from 'lucide-react'
 import { PUNJAB_DISTRICTS, PUNJAB_LOCATIONS } from '../../constants/punjabLocations'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export const DonorsManagement = () => {
   const { user, permissions } = useAuth()
-  const [donors, setDonors] = useState([])
-  const [loading, setLoading] = useState(true)
+  const queryClient = useQueryClient()
+  
+  // Toast notifications state
+  const [toast, setToast] = useState(null)
+  const showToast = (type, message) => {
+    setToast({ type, message })
+    setTimeout(() => setToast(null), 4000)
+  }
+
+  // Fetch donors via React Query
+  const { data: donors = [], isLoading: loading } = useQuery({
+    queryKey: ['donors'],
+    queryFn: db.getDonors
+  })
   
   // Modal state
   const [modalOpen, setModalOpen] = useState(false)
@@ -21,7 +35,7 @@ export const DonorsManagement = () => {
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
   const [address, setAddress] = useState('')
-  const [city, setCity] = useState('Noida')
+  const [city, setCity] = useState('')
   const [district, setDistrict] = useState('')
   const [lastDonationDate, setLastDonationDate] = useState('')
   const [medicalNotes, setMedicalNotes] = useState('')
@@ -30,17 +44,6 @@ export const DonorsManagement = () => {
   // Search/Filter state
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedGroup, setSelectedGroup] = useState('')
-
-  useEffect(() => {
-    fetchDonors()
-  }, [])
-
-  const fetchDonors = async () => {
-    setLoading(true)
-    const data = await db.getDonors()
-    setDonors(data)
-    setLoading(false)
-  }
 
   const handleOpenAddModal = () => {
     setEditingDonor(null)
@@ -66,8 +69,8 @@ export const DonorsManagement = () => {
     setGender(donor.gender)
     setBloodGroup(donor.bloodGroup)
     setPhone(donor.phone)
-    setEmail(donor.email)
-    setAddress(donor.address)
+    setEmail(donor.email || '')
+    setAddress(donor.address || '')
     setCity(donor.city)
     setDistrict(donor.district)
     setLastDonationDate(donor.lastDonationDate || '')
@@ -76,7 +79,53 @@ export const DonorsManagement = () => {
     setModalOpen(true)
   }
 
-  const handleSubmit = async (e) => {
+  // Mutations
+  const saveDonorMutation = useMutation({
+    mutationFn: async (donorPayload) => {
+      if (editingDonor) {
+        return await db.updateDonor(editingDonor.id, donorPayload, user)
+      } else {
+        return await db.createDonor(donorPayload, user)
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['donors'] })
+      showToast('success', editingDonor ? 'Donor profile updated successfully.' : 'Donor profile registered successfully.')
+      setModalOpen(false)
+    },
+    onError: (error) => {
+      console.error("Full Supabase Error:", error)
+      let displayError = 'Failed to save donor profile.'
+      if (error?.message) {
+        if (error.message.includes('unique constraint') || error.message.includes('already exists')) {
+          displayError = 'Email already exists.'
+        } else if (error.message.includes('Failed to fetch') || error.message.includes('network')) {
+          displayError = 'Failed to connect to database.'
+        } else if (error.message.includes('violates row-level security') || error.code === '42501') {
+          displayError = 'Permission denied.'
+        } else {
+          displayError = error.message
+        }
+      }
+      showToast('error', displayError)
+    }
+  })
+
+  const deleteDonorMutation = useMutation({
+    mutationFn: async (id) => {
+      return await db.deleteDonor(id, user)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['donors'] })
+      showToast('success', 'Donor profile deleted successfully.')
+    },
+    onError: (error) => {
+      console.error("Full Supabase Error:", error)
+      showToast('error', error.message || 'Permission denied.')
+    }
+  })
+
+  const handleSubmit = (e) => {
     e.preventDefault()
     
     // Choose random profile avatar
@@ -112,29 +161,12 @@ export const DonorsManagement = () => {
       photo: editingDonor?.photo || photoUrl
     }
 
-    try {
-      if (editingDonor) {
-        // Edit Operation
-        await db.updateDonor(editingDonor.id, donorPayload, user)
-      } else {
-        // Add Operation
-        await db.addDonor(donorPayload, user)
-      }
-      setModalOpen(false)
-      fetchDonors()
-    } catch (err) {
-      console.error(err)
-    }
+    saveDonorMutation.mutate(donorPayload)
   }
 
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
     if (window.confirm('Are you sure you want to delete this donor profile?')) {
-      try {
-        await db.deleteDonor(id, user)
-        fetchDonors()
-      } catch (err) {
-        console.error(err)
-      }
+      deleteDonorMutation.mutate(id)
     }
   }
 
@@ -483,6 +515,25 @@ export const DonorsManagement = () => {
           </form>
         </div>
       )}
+
+      {/* Toast Notification */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            className={`fixed bottom-5 right-5 z-50 flex items-center gap-2.5 px-4 py-3 rounded-xl border shadow-xl backdrop-blur-md ${
+              toast.type === 'success' 
+                ? 'bg-green-500/10 border-green-500/30 text-green-500' 
+                : 'bg-primary-red/10 border-primary-red/30 text-primary-red'
+            }`}
+          >
+            {toast.type === 'success' ? <CheckCircle size={16} className="text-green-500" /> : <ShieldAlert size={16} />}
+            <span className="text-xs font-bold uppercase tracking-wider">{toast.message}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </div>
   )

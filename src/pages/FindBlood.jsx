@@ -104,7 +104,7 @@ export const FindBlood = () => {
                    `• *Location*: ${reqCity}, ${reqDistrict} (Punjab)\n` +
                    `• *Required Date*: ${requiredDate}\n` +
                    `• *Contact Number*: ${phone}\n\n` +
-                   `Please share this or contact immediately to save a life. Powered by LifeSaver NGO.`;
+                   `Please share this or contact immediately to save a life. Powered by AZAAD HUMAN RIGHTS ASSOCIATION.`;
       
       const waLink = `https://wa.me/?text=${encodeURIComponent(text)}`
       setGeneratedWhatsAppLink(waLink)

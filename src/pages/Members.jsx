@@ -44,7 +44,7 @@ export const Members = () => {
             NGO Team & Cabinet
           </h1>
           <p className="text-text-secondary text-sm font-light mt-2 max-w-xl">
-            Meet the dedicated healthcare advocates, administrative staff, and volunteer operators keeping the Lifesaver Alliance running 24/7.
+            Meet the dedicated healthcare advocates, administrative staff, and volunteer operators keeping the AZAAD HUMAN RIGHTS ASSOCIATION running 24/7.
           </p>
         </div>
 

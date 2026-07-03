@@ -3,12 +3,26 @@ import { db } from '../../services/db'
 import { useAuth } from '../../context/AuthContext'
 import { Plus, Edit2, Trash2, ShieldAlert, Calendar, MapPin, Users, Droplets, Info } from 'lucide-react'
 import { PUNJAB_DISTRICTS, PUNJAB_LOCATIONS } from '../../constants/punjabLocations'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export const CampsManagement = () => {
   const { user, permissions } = useAuth()
-  const [camps, setCamps] = useState([])
-  const [loading, setLoading] = useState(true)
+  const queryClient = useQueryClient()
   
+  // Toast notifications state
+  const [toast, setToast] = useState(null)
+  const showToast = (type, message) => {
+    setToast({ type, message })
+    setTimeout(() => setToast(null), 4000)
+  }
+
+  // Fetch camps via React Query
+  const { data: camps = [], isLoading: loading } = useQuery({
+    queryKey: ['camps'],
+    queryFn: db.getCamps
+  })
+
   // Modal state
   const [modalOpen, setModalOpen] = useState(false)
   const [editingCamp, setEditingCamp] = useState(null)
@@ -23,17 +37,6 @@ export const CampsManagement = () => {
   const [unitsCollected, setUnitsCollected] = useState(0)
   const [district, setDistrict] = useState('')
   const [city, setCity] = useState('')
-
-  useEffect(() => {
-    fetchCamps()
-  }, [])
-
-  const fetchCamps = async () => {
-    setLoading(true)
-    const data = await db.getCamps()
-    setCamps(data)
-    setLoading(false)
-  }
 
   const handleOpenAddModal = () => {
     setEditingCamp(null)
@@ -63,10 +66,56 @@ export const CampsManagement = () => {
     setModalOpen(true)
   }
 
-  const handleSubmit = async (e) => {
+  // Mutations
+  const saveCampMutation = useMutation({
+    mutationFn: async (campPayload) => {
+      if (editingCamp) {
+        return await db.updateCamp(editingCamp.id, campPayload, user)
+      } else {
+        return await db.createCamp(campPayload, user)
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['camps'] })
+      showToast('success', editingCamp ? 'Blood camp updated successfully.' : 'Blood camp created successfully.')
+      setModalOpen(false)
+    },
+    onError: (error) => {
+      console.error("Full Supabase Error:", error)
+      let displayError = 'Failed to save blood camp.'
+      if (error?.message) {
+        if (error.message.includes('unique constraint') || error.message.includes('already exists')) {
+          displayError = 'Camp already exists.'
+        } else if (error.message.includes('Failed to fetch') || error.message.includes('network')) {
+          displayError = 'Failed to connect to database.'
+        } else if (error.message.includes('violates row-level security') || error.code === '42501') {
+          displayError = 'Permission denied.'
+        } else {
+          displayError = error.message
+        }
+      }
+      showToast('error', displayError)
+    }
+  })
+
+  const deleteCampMutation = useMutation({
+    mutationFn: async (id) => {
+      return await db.deleteCamp(id, user)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['camps'] })
+      showToast('success', 'Blood camp deleted successfully.')
+    },
+    onError: (error) => {
+      console.error("Full Supabase Error:", error)
+      showToast('error', error.message || 'Permission denied.')
+    }
+  })
+
+  const handleSubmit = (e) => {
     e.preventDefault()
     if (!district || !city) {
-      alert('Please select a district and city in Punjab.')
+      showToast('error', 'Please select a district and city in Punjab.')
       return
     }
     
@@ -85,27 +134,12 @@ export const CampsManagement = () => {
       photo: editingCamp?.photo || defaultPhoto
     }
 
-    try {
-      if (editingCamp) {
-        await db.updateCamp(editingCamp.id, campPayload, user)
-      } else {
-        await db.addCamp(campPayload, user)
-      }
-      setModalOpen(false)
-      fetchCamps()
-    } catch (err) {
-      console.error(err)
-    }
+    saveCampMutation.mutate(campPayload)
   }
 
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
     if (window.confirm('Are you sure you want to delete this camp?')) {
-      try {
-        await db.deleteCamp(id, user)
-        fetchCamps()
-      } catch (err) {
-        console.error(err)
-      }
+      deleteCampMutation.mutate(id)
     }
   }
 
@@ -402,6 +436,25 @@ export const CampsManagement = () => {
           </form>
         </div>
       )}
+
+      {/* Toast Notification */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            className={`fixed bottom-5 right-5 z-50 flex items-center gap-2.5 px-4 py-3 rounded-xl border shadow-xl backdrop-blur-md ${
+              toast.type === 'success' 
+                ? 'bg-green-500/10 border-green-500/30 text-green-500' 
+                : 'bg-primary-red/10 border-primary-red/30 text-primary-red'
+            }`}
+          >
+            {toast.type === 'success' ? <Droplets size={16} className="text-green-500" /> : <ShieldAlert size={16} />}
+            <span className="text-xs font-bold uppercase tracking-wider">{toast.message}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </div>
   )

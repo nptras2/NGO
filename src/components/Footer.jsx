@@ -31,16 +31,21 @@ export const Footer = () => {
           
           {/* Logo & Mission (Col: 4) */}
           <div className="lg:col-span-4 space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-primary-red/10 rounded-full flex items-center justify-center text-primary-red">
-                <Droplet size={18} fill="currentColor" />
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-full overflow-hidden border border-border-color bg-pure-white flex items-center justify-center shrink-0">
+                <img src="/logo.jpg" alt="AZAAD Logo" className="w-full h-full object-cover" />
               </div>
-              <span className="font-bold tracking-widest text-base uppercase">
-                LIFESAVER<span className="text-primary-red">NGO</span>
-              </span>
+              <div className="flex flex-col">
+                <span className="font-extrabold tracking-wider text-xs leading-none uppercase">
+                  AZAAD HUMAN RIGHTS
+                </span>
+                <span className="text-[9px] text-primary-red tracking-wider uppercase font-bold mt-0.5">
+                  ASSOCIATION • PUNJAB
+                </span>
+              </div>
             </div>
             <p className="text-xs text-var-txt-secondary font-light leading-relaxed">
-              We are a registered non-profit medical coordinating alliance committed to organizing safe field camps and verified donor networks.
+              We are a registered non-profit medical coordinating alliance committed to organizing safe field camps and verified donor networks across Punjab.
             </p>
             <div className="flex items-center gap-2 text-[10px] text-var-txt-secondary bg-var-border/20 p-2.5 rounded-lg border border-var-border/40 w-fit">
               <ShieldCheck size={14} className="text-green-600 dark:text-green-400" />
@@ -73,7 +78,7 @@ export const Footer = () => {
             <ul className="space-y-3.5 text-xs text-var-txt-secondary font-light">
               <li className="flex items-start gap-2">
                 <MapPin size={14} className="text-primary-red shrink-0 mt-0.5" />
-                <span>Sector 62, Noida, UP, 201301</span>
+                <span>Main Bazaar, Civil Lines, Jalandhar, Punjab, 144001</span>
               </li>
               <li className="flex items-center gap-2">
                 <Phone size={14} className="text-primary-red shrink-0" />
@@ -81,7 +86,7 @@ export const Footer = () => {
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={14} className="text-primary-red shrink-0" />
-                <a href="mailto:emergency@lifesaverngo.org" className="hover:text-primary-red transition-colors">emergency@lifesaverngo.org</a>
+                <a href="mailto:emergency@azaadhumanrights.org" className="hover:text-primary-red transition-colors">emergency@azaadhumanrights.org</a>
               </li>
             </ul>
           </div>
@@ -134,7 +139,7 @@ export const Footer = () => {
 
         {/* Footer Bottom */}
         <div className="border-t border-var-border pt-8 mt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-var-txt-secondary">
-          <p>© {new Date().getFullYear()} LifeSaver NGO Network. All Rights Reserved.</p>
+          <p>© {new Date().getFullYear()} AZAAD HUMAN RIGHTS ASSOCIATION. All Rights Reserved.</p>
           <div className="flex items-center gap-4">
             <Link to="/about" className="hover:text-var-txt-primary transition-colors">Privacy Policy</Link>
             <span>•</span>

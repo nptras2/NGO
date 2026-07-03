@@ -32,26 +32,26 @@ export const LoadingScreen = () => {
           className="fixed inset-0 z-9999 flex flex-col items-center justify-center bg-charcoal text-pure-white"
         >
           <div className="relative flex flex-col items-center">
-            {/* Heartbeat pulsing glow */}
+            {/* Logo container with pulsing glow */}
             <motion.div
               animate={{ 
-                scale: [1, 1.15, 1, 1.2, 1],
+                scale: [1, 1.05, 1, 1.08, 1],
                 filter: [
-                  'drop-shadow(0 0 10px rgba(229,57,53,0.3))',
-                  'drop-shadow(0 0 25px rgba(229,57,53,0.8))',
-                  'drop-shadow(0 0 10px rgba(229,57,53,0.3))',
-                  'drop-shadow(0 0 35px rgba(229,57,53,0.9))',
-                  'drop-shadow(0 0 10px rgba(229,57,53,0.3))'
+                  'drop-shadow(0 0 10px rgba(229,57,53,0.2))',
+                  'drop-shadow(0 0 25px rgba(229,57,53,0.5))',
+                  'drop-shadow(0 0 10px rgba(229,57,53,0.2))',
+                  'drop-shadow(0 0 30px rgba(229,57,53,0.6))',
+                  'drop-shadow(0 0 10px rgba(229,57,53,0.2))'
                 ]
               }}
               transition={{ 
-                duration: 1.8, 
+                duration: 2.2, 
                 repeat: Infinity,
                 ease: "easeInOut"
               }}
-              className="text-primary-red mb-6"
+              className="w-16 h-16 rounded-full overflow-hidden border-2 border-primary-red/50 bg-pure-white mb-6 flex items-center justify-center shadow-lg"
             >
-              <HeartPulse size={64} className="stroke-[1.5]" />
+              <img src="/logo.jpg" alt="Logo" className="w-full h-full object-cover" />
             </motion.div>
 
             {/* Glowing Brand Name */}
@@ -59,17 +59,17 @@ export const LoadingScreen = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-2xl font-bold tracking-widest uppercase mb-1"
+              className="text-xl font-extrabold tracking-wider uppercase mb-1 text-center"
             >
-              LIFESAVER <span className="text-primary-red">NGO</span>
+              AZAAD HUMAN RIGHTS
             </motion.h1>
             <motion.p
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.6 }}
+              animate={{ opacity: 0.8 }}
               transition={{ delay: 0.4 }}
-              className="text-xs tracking-wider text-soft-silver font-light uppercase mb-8"
+              className="text-[10px] tracking-widest text-primary-red font-bold uppercase mb-8 text-center"
             >
-              Blood Bank Management Platform
+              ASSOCIATION • PUNJAB
             </motion.p>
 
             {/* Progress Bar Container */}

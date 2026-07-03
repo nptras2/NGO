@@ -57,11 +57,13 @@ export const DashboardLayout = () => {
       <aside className="hidden lg:flex flex-col w-64 bg-bg-secondary border-r border-border-color shrink-0 select-none">
         
         {/* Header */}
-        <div className="h-16 px-6 border-b border-border-color flex items-center gap-2.5">
-          <ShieldAlert className="text-primary-red" size={22} />
+        <div className="h-16 px-5 border-b border-border-color flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-full overflow-hidden border border-border-color bg-pure-white flex items-center justify-center shrink-0">
+            <img src="/logo.jpg" alt="Logo" className="w-full h-full object-cover" />
+          </div>
           <div className="flex flex-col">
-            <span className="font-extrabold tracking-widest text-sm uppercase">LIFESAVER <span className="text-primary-red">PORTAL</span></span>
-            <span className="text-[9px] text-text-secondary tracking-widest uppercase font-light">Cabinet Control</span>
+            <span className="font-extrabold tracking-wider text-[11px] leading-tight text-text-primary uppercase">AZAAD HUMAN RIGHTS</span>
+            <span className="text-[8px] text-primary-red tracking-wider uppercase font-bold">CABINET CONTROL</span>
           </div>
         </div>
 
@@ -140,8 +142,10 @@ export const DashboardLayout = () => {
         <header className="h-16 border-b border-border-color px-6 flex items-center justify-between bg-bg-secondary shrink-0 transition-all">
           <div className="flex items-center gap-2 lg:hidden">
             {/* Simple logo on mobile */}
-            <ShieldAlert className="text-primary-red" size={20} />
-            <span className="font-black text-sm uppercase">LIFESAVER</span>
+            <div className="w-6 h-6 rounded-full overflow-hidden border border-border-color bg-pure-white flex items-center justify-center shrink-0">
+              <img src="/logo.jpg" alt="Logo" className="w-full h-full object-cover" />
+            </div>
+            <span className="font-black text-[10px] tracking-wide uppercase">AZAAD HUMAN RIGHTS</span>
           </div>
 
           <div className="hidden lg:block text-xs font-medium text-text-secondary select-none">

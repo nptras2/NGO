@@ -118,6 +118,7 @@ create table public.members (
     id uuid default uuid_generate_v4() primary key,
     name text not null,
     designation text not null,
+    email text unique,
     blood_group text check (blood_group in ('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-')),
     phone text,
     years_of_service integer default 0,

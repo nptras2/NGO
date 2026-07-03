@@ -15,6 +15,9 @@ export const db = {
     await reportService.addAuditLog(actor?.id, 'Added Donor', `Added donor ${donor.fullName} (${donor.bloodGroup})`, 'donor', res.id)
     return res
   },
+  createDonor: async (donor, actor) => {
+    return await db.addDonor(donor, actor)
+  },
   updateDonor: async (id, donor, actor) => {
     const res = await donorService.updateDonor(id, donor)
     await reportService.addAuditLog(actor?.id, 'Updated Donor', `Updated details for ${donor.fullName}`, 'donor', id)
@@ -38,6 +41,9 @@ export const db = {
     const res = await campService.addCamp(camp)
     await reportService.addAuditLog(actor?.id, 'Created Camp', `Created Camp: ${camp.campName}`, 'camp', res.id)
     return res
+  },
+  createCamp: async (camp, actor) => {
+    return await db.addCamp(camp, actor)
   },
   updateCamp: async (id, camp, actor) => {
     const res = await campService.updateCamp(id, camp)
@@ -65,6 +71,9 @@ export const db = {
     const res = await memberService.addMember(member)
     await reportService.addAuditLog(actor?.id, 'Added Member', `Added Staff Member ${member.fullName} as ${member.post}`, 'member', res.id)
     return res
+  },
+  createMember: async (member, actor) => {
+    return await db.addMember(member, actor)
   },
   updateMember: async (id, member, actor) => {
     const res = await memberService.updateMember(id, member)
